@@ -23,11 +23,11 @@ class StorageDetails extends StatelessWidget {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
           SizedBox(
-            height: 16,
+            height: defualtPadding,
           ),
           Chart(),
           SizedBox(
-            height: 16,
+            height: defualtPadding,
           ),
           ...demoMyFiles
               .map((e) => StorageInfoCard(
