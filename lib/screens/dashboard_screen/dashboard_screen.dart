@@ -59,12 +59,12 @@ class DashboardScreen extends StatelessWidget {
                         ),
                         ...demoMyFiles
                             .map((e) => RecentFiles(
-                                  title: e.title,
+                                  title: e.title!,
                                   subTitle: e.numOfFiles.toString(),
-                                  data: e.totalStorage,
-                                  svgUrl: e.svgSrc,
+                                  data: e.totalStorage!,
+                                  svgUrl: e.svgSrc!,
                                 ))
-                            .toList() ///////////// the error is here try to fix
+                            .toList()
                       ],
                     ),
                   ),
@@ -81,13 +81,14 @@ class DashboardScreen extends StatelessWidget {
 class RecentFiles extends StatelessWidget {
   RecentFiles({
     Key? key,
-    String? title,
-    String? subTitle,
-    String? svgUrl,
-    String? data,
+    this.title = 'title',
+    this.subTitle = 'subTitle',
+    this.svgUrl = 'ss',
+    this.data = 'asdf',
   }) : super(key: key);
 
-  late String title, subTitle, svgUrl, data;
+  final String title, subTitle, svgUrl, data;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -95,6 +96,7 @@ class RecentFiles extends StatelessWidget {
           color: secondaryColor,
           border: Border.all(color: Colors.white10),
           borderRadius: BorderRadius.circular(10)),
+      margin: const EdgeInsets.symmetric(vertical: defualtPadding / 3),
       padding: const EdgeInsets.symmetric(
           horizontal: defualtPadding, vertical: defualtPadding / 2),
       child: Row(
