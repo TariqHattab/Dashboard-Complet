@@ -28,14 +28,19 @@ class InfoCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(defualtPadding),
+                  padding: const EdgeInsets.all(defualtPadding * .75),
                   decoration: BoxDecoration(
                       color: info!.color!.withOpacity(.1),
-                      borderRadius: BorderRadius.circular(13)),
+                      borderRadius: BorderRadius.circular(8)),
                   child: SvgPicture.asset(info!.svgSrc!),
                 ),
                 Spacer(),
-                IconButton(icon: Icon(Icons.more_vert), onPressed: () {})
+                IconButton(
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: Colors.white54,
+                    ),
+                    onPressed: () {})
               ],
             ),
             Text(info!.title!),
