@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:new_app/constants.dart';
 import 'package:new_app/models/MyFiles.dart';
+import 'package:new_app/models/RecentFile.dart';
 
 import 'components/chart.dart';
 import 'components/header.dart';
+import 'components/info_card.dart';
 import 'components/storage_details.dart';
 import 'components/storage_info_card.dart';
 
@@ -32,18 +34,91 @@ class DashboardScreen extends StatelessWidget {
                 Expanded(
                   flex: 5,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       FirstRow(),
                       Row(
-                        children: [
-                          InfoCard(
-                            svgUrl: 'assets/icons/Documents.svg',
-                            title: 'Documents',
-                            subTitle1: '123GB Files',
-                            subTitle2: '12GB',
-                          )
-                        ],
-                      )
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: demoMyFiles
+                            .map((e) => InfoCard(
+                                  info: e,
+                                ))
+                            .toList(),
+                      ),
+                      LayoutBuilder(builder: (ctx, constraints) {
+                        print(constraints.maxHeight);
+                        return Container(
+                          // height: 300,
+                          width: constraints.maxWidth,
+                          // height: constraints.maxHeight,\
+                          padding: const EdgeInsets.all(defualtPadding),
+                          decoration: BoxDecoration(
+                            color: secondaryColor,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                'Recent Files',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              DataTable(
+                                columnSpacing: 200,
+                                columns: [
+                                  DataColumn(
+                                      label: Text(
+                                    ' File Name',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  )),
+                                  DataColumn(
+                                      label: Text(
+                                    '   Date',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  )),
+                                  DataColumn(
+                                      label: Text(
+                                    '   Size',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  )),
+                                ],
+                                rows: demoRecentFiles
+                                    .map(
+                                      (e) => DataRow(
+                                        cells: [
+                                          DataCell(
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(e.icon!),
+                                                SizedBox(
+                                                  width: defualtPadding,
+                                                ),
+                                                Text(e.title!)
+                                              ],
+                                            ),
+                                          ),
+                                          DataCell(
+                                            Text(e.date!),
+                                          ),
+                                          DataCell(
+                                            Text(e.size!),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        );
+                      })
                     ],
                   ),
                 ),
@@ -53,83 +128,6 @@ class DashboardScreen extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: StorageDetails(),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class InfoCard extends StatelessWidget {
-  InfoCard({
-    Key? key,
-    this.title,
-    this.subTitle1,
-    this.subTitle2,
-    this.svgUrl,
-    this.ratio,
-  }) : super(key: key);
-
-  String? title, subTitle1, subTitle2, svgUrl;
-  double? ratio;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        width: 200,
-        height: 180,
-        margin: const EdgeInsets.all(defualtPadding),
-        padding: const EdgeInsets.all(defualtPadding),
-        decoration: BoxDecoration(
-            color: secondaryColor, borderRadius: BorderRadius.circular(13)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(defualtPadding),
-                  decoration: BoxDecoration(
-                      color: primaryColor.withOpacity(.1),
-                      borderRadius: BorderRadius.circular(13)),
-                  child: SvgPicture.asset(svgUrl!),
-                ),
-                Spacer(),
-                IconButton(icon: Icon(Icons.more_vert), onPressed: () {})
-              ],
-            ),
-            Text(title!),
-            Container(
-              height: 5,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: primaryColor.withOpacity(.1),
-                  borderRadius: BorderRadius.circular(3)),
-              child: FractionallySizedBox(
-                alignment: Alignment.centerLeft,
-                widthFactor: .3,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(3)),
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  subTitle1!,
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-                Text(
-                  subTitle2!,
-                  style: TextStyle(color: Colors.white, fontSize: 12),
                 )
               ],
             )
