@@ -11,6 +11,7 @@ class TableSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: defualtPadding),
       padding: const EdgeInsets.all(defualtPadding),
       decoration: BoxDecoration(
         color: secondaryColor,

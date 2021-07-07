@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_app/constants.dart';
 import 'package:new_app/models/MyFiles.dart';
+import 'package:new_app/responsive.dart';
 
 import 'info_card.dart';
 import 'storage_details.dart';
@@ -22,14 +23,21 @@ class RecentFiles extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FirstRow(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: demoMyFiles
-                    .map((e) => InfoCard(
-                          info: e,
-                        ))
-                    .toList(),
+              SizedBox(
+                height: defualtPadding,
               ),
+              GridView.builder(
+                  itemCount: 4,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      childAspectRatio: 1.4,
+                      crossAxisSpacing: defualtPadding),
+                  itemBuilder: (ctx, index) {
+                    return InfoCard(
+                      info: demoMyFiles[index],
+                    );
+                  }),
               TableSection()
             ],
           ),
@@ -37,10 +45,11 @@ class RecentFiles extends StatelessWidget {
         SizedBox(
           width: defualtPadding,
         ),
-        Expanded(
-          flex: 2,
-          child: StorageDetails(),
-        )
+        if (!Responsive.isMobile(context))
+          Expanded(
+            flex: 2,
+            child: StorageDetails(),
+          )
       ],
     );
   }
