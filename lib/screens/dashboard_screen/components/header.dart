@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:new_app/constants.dart';
+import 'package:new_app/controllers/MenuController.dart';
+import 'package:new_app/responsive.dart';
+import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -11,13 +14,22 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          'Dashboard',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        Spacer(
-          flex: 2,
-        ),
+        if (!Responsive.isDesktop(context))
+          Padding(
+            padding: const EdgeInsets.only(right: defualtPadding),
+            child: IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: context.read<MenuController>().controlMenu),
+          ),
+        if (!Responsive.isMobile(context))
+          Text(
+            'Dashboard',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        if (!Responsive.isMobile(context))
+          Spacer(
+            flex: Responsive.isDesktop(context) ? 2 : 1,
+          ),
         Expanded(
           child: SearchFeild(),
         ),
@@ -35,7 +47,7 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: defualtPadding),
+      margin: const EdgeInsets.symmetric(horizontal: defualtPadding),
       padding: const EdgeInsets.symmetric(
           horizontal: defualtPadding, vertical: defualtPadding / 2),
       decoration: BoxDecoration(
@@ -45,10 +57,11 @@ class ProfileCard extends StatelessWidget {
       child: Row(
         children: [
           Image.asset('assets/images/profile_pic.png'),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Text('Angilena Joli'),
-          ),
+          if (!Responsive.isMobile(context))
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text('Angilena Joli'),
+            ),
           Icon(Icons.arrow_drop_down)
         ],
       ),
